@@ -106,6 +106,7 @@ public class AddressBookSystem {
                 contacts.remove(i);
             }
         }
+        System.out.println("Contact has been deleted");
     }
 
     public static void main(String[] args) {
