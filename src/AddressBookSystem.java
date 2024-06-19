@@ -7,12 +7,12 @@ public class AddressBookSystem {
     private String address;
     private String city;
     private String state;
-    private int zip;
-    private long phoneNumber;
+    private String zip;
+    private String phoneNumber;
     private String email;
     static ArrayList<AddressBookSystem> contacts=new ArrayList<>();
     static Scanner sc=new Scanner(System.in);
-    AddressBookSystem(String firstName,String lastNames,String address,String city,String state,int zip,long phoneNumber,String email){
+    AddressBookSystem(String firstName,String lastNames,String address,String city,String state,String zip,String phoneNumber,String email){
         this.firstName=firstName;
         this.lastNames=lastNames;
         this.address=address;
@@ -28,6 +28,7 @@ public class AddressBookSystem {
 
     }
     static void print(){
+        System.out.println("\nContact details");
         for(AddressBookSystem contact: contacts){
             System.out.println(contact);
         }
@@ -35,23 +36,24 @@ public class AddressBookSystem {
     private static void addContacts(){
         System.out.println("Enter contact details");
         System.out.println("Enter first name:");
-        String fn= sc.next();
+        String fn= sc.nextLine();
         System.out.println("Enter last name:");
-        String ln= sc.next();
+        String ln= sc.nextLine();
         System.out.println("Enter address:");
         String add= sc.nextLine();
         System.out.println("Enter city:");
-        String city= sc.next();
+        String city= sc.nextLine();
         System.out.println("Enter state:");
-        String state= sc.next();
+        String state= sc.nextLine();
         System.out.println("Enter zip:");
-        int zip= sc.nextInt();
+        String zip= sc.nextLine();
         System.out.println("Enter PhoneNo.:");
-        long phn= sc.nextLong();
+        String  phn= sc.nextLine();
         System.out.println("Enter email:");
-        String email= sc.next();
+        String email= sc.nextLine();
         contacts.add(new AddressBookSystem(fn,ln,add,city,state,zip,phn,email));
     }
+
     public static void main(String[] args) {
 
         System.out.println("Welcome to Address Book System");
@@ -59,10 +61,10 @@ public class AddressBookSystem {
         ArrayList<AddressBookSystem> contacts=new ArrayList<>();
         System.out.println("Enter number of contacts");
         int n= sc.nextInt();
+        sc.nextLine();
         for (int i=0;i<n;i++){
             addContacts();
         }
         print();
-
     }
 }
