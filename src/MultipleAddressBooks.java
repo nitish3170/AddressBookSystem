@@ -12,7 +12,7 @@ public class MultipleAddressBooks {
             System.out.println("Enter the name of the address book:");
             String name = sc.next();
             if (addressBooks.containsKey(name)) {
-                System.out.println("Address book with this name already exists. Please choose a different name.");
+                System.out.println("Address book with this name already exists. Please choose another name.");
             } else {
                 addressBooks.put(name, new AddressBookSystem());
                 System.out.println("Address Book \"" + name + "\" created.");

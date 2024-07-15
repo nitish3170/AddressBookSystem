@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class AddressBookSystem {
@@ -60,6 +61,14 @@ public class AddressBookSystem {
             System.out.println();
         }
     }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AddressBookSystem that = (AddressBookSystem) o;
+        return Objects.equals(firstName, that.firstName) &&
+                Objects.equals(lastName, that.lastName);
+    }
     private void addContact(){
         System.out.println("Enter contact details:");
         System.out.print("Enter first name: ");
@@ -78,7 +87,12 @@ public class AddressBookSystem {
         String phn = sc.nextLine();
         System.out.print("Enter email: ");
         String email = sc.nextLine();
-        contacts.add(new AddressBookSystem(fn, ln, add, city, state, zip, phn, email));
+        AddressBookSystem con =new AddressBookSystem(fn, ln, add, city, state, zip, phn, email);
+        if (contacts.contains(con)) {
+            System.out.println("This contact already exists.");
+            return;
+            }
+        contacts.add(con);
     }
     private void editContact(){
         System.out.println("Existing contacts:");
@@ -87,7 +101,7 @@ public class AddressBookSystem {
         }
         System.out.println("Enter the number of the contact you want to edit:");
         int index = sc.nextInt() - 1;
-        sc.nextLine(); // Consume newline
+        sc.nextLine();
 
         if (index < 0 || index >= contacts.size()) {
             System.out.println("Invalid contact number.");
@@ -99,7 +113,7 @@ public class AddressBookSystem {
         System.out.println("Choose the number of the field you want to edit:");
         System.out.println("1. First Name\n2. Last Name\n3. Address\n4. City\n5. State\n6. ZIP\n7. Phone Number\n8. Email");
         int field = sc.nextInt();
-        sc.nextLine(); // Consume newline
+        sc.nextLine();
 
         System.out.println("Enter the updated value:");
         String updated = sc.nextLine();
@@ -140,7 +154,7 @@ public class AddressBookSystem {
         }
         System.out.println("Enter the number of the contact you want to delete:");
         int index = sc.nextInt() - 1;
-        sc.nextLine(); // Consume newline
+        sc.nextLine();
 
         if (index < 0 || index >= contacts.size()) {
             System.out.println("Invalid contact number.");
