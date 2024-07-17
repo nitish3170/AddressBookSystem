@@ -1,87 +1,77 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 public class MultipleAddressBooks {
-    private static void searchInCity(HashMap<String, AddressBookSystem> addressBooks, String cityName) {
-        System.out.println("Search Results in City \"" + cityName + "\":");
-        addressBooks.values().stream()
-                .flatMap(book -> book.getContacts().stream()) // Flatten all contacts from all address books
-                .filter(contact -> contact.isInCity(cityName)) // Filter contacts in the specified city
-                .forEach(contact -> {
-                    System.out.println(contact);
-                    System.out.println(); // Print each matching contact
-                });
+    private HashMap<String, AddressBookSystem> addressBooks = new HashMap<>();
+    private HashMap<String, List<AddressBookSystem>> cityToPersons = new HashMap<>();
+    private HashMap<String, List<AddressBookSystem>> stateToPersons = new HashMap<>();
+    private static Scanner sc = new Scanner(System.in);
+
+
+    private void addAddressBook(String name) {
+        if (addressBooks.containsKey(name)) {
+            System.out.println("Address book with this name already exists. Please choose another name.");
+        } else {
+            AddressBookSystem newAddressBook = new AddressBookSystem();
+            addressBooks.put(name, newAddressBook);
+            updateCityAndStateMappings(newAddressBook);
+            System.out.println("Address Book \"" + name + "\" created.");
+        }
     }
-    private static void searchInState(HashMap<String, AddressBookSystem> addressBooks, String stateName) {
+    private void updateCityAndStateMappings(AddressBookSystem addressBook) {
+        for (AddressBookSystem contact : addressBook.getContacts()) {
+            cityToPersons.computeIfAbsent(contact.getCity(), k -> new ArrayList<>()).add(contact);
+            stateToPersons.computeIfAbsent(contact.getState(), k -> new ArrayList<>()).add(contact);
+        }
+    }
+    private void searchInCity(String cityName) {
+        System.out.println("Search Results in City \"" + cityName + "\":");
+        cityToPersons.getOrDefault(cityName, new ArrayList<>()).forEach(contact -> {
+            System.out.println(contact);
+            System.out.println();
+        });
+    }
+    private void searchInState(String stateName) {
         System.out.println("Search Results in State \"" + stateName + "\":");
-        addressBooks.values().stream()
-                .flatMap(book -> book.getContacts().stream()) // Flatten all contacts from all address books
-                .filter(contact -> contact.isInState(stateName)) // Filter contacts in the specified state
-                .forEach(contact -> {
-                    System.out.println(contact);
-                    System.out.println(); // Print each matching contact
-                });
+        stateToPersons.getOrDefault(stateName, new ArrayList<>()).forEach(contact -> {
+            System.out.println(contact);
+            System.out.println();
+        });
     }
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        HashMap<String, AddressBookSystem> addressBooks = new HashMap<>();
         System.out.println("Welcome to Address Book System");
+        MultipleAddressBooks multipleAddressBooks = new MultipleAddressBooks();
 
         boolean check = true;
         while (check) {
-            System.out.println("Enter the name of the address book:");
-            String name = sc.next();
-            if (addressBooks.containsKey(name)) {
-                System.out.println("Address book with this name already exists. Please choose another name.");
-                continue;
-            }
-            AddressBookSystem newAddressBook = new AddressBookSystem();
-            addressBooks.put(name, newAddressBook);
-            System.out.println("Address Book \"" + name + "\" created.");
+            System.out.println("Enter 1 to Add Address Book\nEnter 2 to Search by City\nEnter 3 to Search by State\nEnter 4 to Exit");
+            int choice = sc.nextInt();
+            sc.nextLine();
 
-            boolean operate = true;
-            while (operate) {
-                System.out.println("\nEnter operation for Address Book \"" + name + "\":");
-                System.out.println("1. Add Contact\n2. Edit Contact\n3. Delete Contact\n4. Print Contacts\n5. Search in City\n6. Search in State\n7. Exit");
-                int choice = sc.nextInt();
-                sc.nextLine(); // Consume newline
-
-                switch (choice) {
-                    case 1:
-                        newAddressBook.addContact();
-                        break;
-                    case 2:
-                        newAddressBook.editContact();
-                        break;
-                    case 3:
-                        newAddressBook.deleteContact();
-                        break;
-                    case 4:
-                        newAddressBook.print();
-                        break;
-                    case 5:
-                        System.out.println("Enter city name to search:");
-                        String city = sc.nextLine();
-                        searchInCity(addressBooks, city);
-                        break;
-                    case 6:
-                        System.out.println("Enter state name to search:");
-                        String state = sc.nextLine();
-                        searchInState(addressBooks, state);
-                        break;
-                    case 7:
-                        operate = false;
-                        break;
-                    default:
-                        System.out.println("Invalid choice. Please choose again.");
-                }
-            }
-
-            System.out.println("Do you want to add another Address Book? (y/n)");
-            String ch = sc.next();
-            if (ch.equalsIgnoreCase("n")) {
-                check = false;
+            switch (choice) {
+                case 1:
+                    System.out.println("Enter the name of the address book:");
+                    String name = sc.nextLine();
+                    multipleAddressBooks.addAddressBook(name);
+                    break;
+                case 2:
+                    System.out.println("Enter city name to search:");
+                    String city = sc.nextLine();
+                    multipleAddressBooks.searchInCity(city);
+                    break;
+                case 3:
+                    System.out.println("Enter state name to search:");
+                    String state = sc.nextLine();
+                    multipleAddressBooks.searchInState(state);
+                    break;
+                case 4:
+                    check = false;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please choose again.");
             }
         }
 
