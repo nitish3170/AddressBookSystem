@@ -69,7 +69,7 @@ public class AddressBookSystem {
         return Objects.equals(firstName, that.firstName) &&
                 Objects.equals(lastName, that.lastName);
     }
-    private void addContact(){
+    public void addContact(){
         System.out.println("Enter contact details:");
         System.out.print("Enter first name: ");
         String fn = sc.nextLine();
@@ -87,14 +87,15 @@ public class AddressBookSystem {
         String phn = sc.nextLine();
         System.out.print("Enter email: ");
         String email = sc.nextLine();
-        AddressBookSystem con =new AddressBookSystem(fn, ln, add, city, state, zip, phn, email);
-        if (contacts.contains(con)) {
+        AddressBookSystem newContact =new AddressBookSystem(fn, ln, add, city, state, zip, phn, email);
+        if (contacts.stream().anyMatch(contact -> contact.equals(newContact))) {
             System.out.println("This contact already exists.");
-            return;
             }
-        contacts.add(con);
+        else {
+            contacts.add(newContact);
+        }
     }
-    private void editContact(){
+    public void editContact(){
         System.out.println("Existing contacts:");
         for (int i = 0; i < contacts.size(); i++) {
             System.out.printf("%d. %s\n", i + 1, contacts.get(i).firstName);
@@ -147,7 +148,7 @@ public class AddressBookSystem {
                 System.out.println("Invalid field number.");
         }
     }
-    private void deleteContact(){
+    public void deleteContact(){
         System.out.println("Existing contacts:");
         for (int i = 0; i < contacts.size(); i++) {
             System.out.printf("%d. %s\n", i + 1, contacts.get(i).firstName);
@@ -163,6 +164,27 @@ public class AddressBookSystem {
 
         contacts.remove(index);
         System.out.println("Contact has been deleted.");
+    }
+    public String getCity() {
+        return city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public ArrayList<AddressBookSystem> getContacts() {
+        return contacts;
+    }
+
+    // Method to search for a person by city
+    public boolean isInCity(String cityName) {
+        return this.city.equalsIgnoreCase(cityName);
+    }
+
+    // Method to search for a person by state
+    public boolean isInState(String stateName) {
+        return this.state.equalsIgnoreCase(stateName);
     }
 
     public static void main(String[] args) {}
