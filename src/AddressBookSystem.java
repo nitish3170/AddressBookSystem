@@ -194,4 +194,8 @@ public class AddressBookSystem {
     }
 
     public static void main(String[] args) {}
+
+    public String getZip() {
+        return zip;
+    }
 }
