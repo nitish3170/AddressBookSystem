@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class MultipleAddressBooks {
     private HashMap<String, AddressBookSystem> addressBooks = new HashMap<>();
-    private HashMap<String, List<AddressBookSystem>> cityToPersons = new HashMap<>();
+    private static HashMap<String, List<AddressBookSystem>> cityToPersons = new HashMap<>();
     private HashMap<String, List<AddressBookSystem>> stateToPersons = new HashMap<>();
     private static Scanner sc = new Scanner(System.in);
 
@@ -47,7 +47,7 @@ public class MultipleAddressBooks {
 
         boolean check = true;
         while (check) {
-            System.out.println("Enter 1 to Add Address Book\nEnter 2 to Search by City\nEnter 3 to Search by State\nEnter 4 to Exit");
+            System.out.println("Enter 1 to Add Address Book\nEnter 2 to Search by City\nEnter 3 to Search by State\nEnter 4 to Count by City\nEnter 5 to Count by State\nEnter 6 to Exit");
             int choice = sc.nextInt();
             sc.nextLine();
 
@@ -68,6 +68,16 @@ public class MultipleAddressBooks {
                     multipleAddressBooks.searchInState(state);
                     break;
                 case 4:
+                    System.out.println("Enter city name to search:");
+                    String cityCount = sc.nextLine();
+                    System.out.print("Number of contacts found in "+ cityCount +": "+cityToPersons.getOrDefault(cityCount, new ArrayList<>()).size() );
+                    break;
+                case 5:
+                    System.out.println("Enter state name to search:");
+                    String stateCount = sc.nextLine();
+                    System.out.print("Number of contacts found in "+ stateCount +": "+cityToPersons.getOrDefault(stateCount, new ArrayList<>()).size() );
+                    break;
+                case 6:
                     check = false;
                     break;
                 default:
@@ -76,4 +86,10 @@ public class MultipleAddressBooks {
         }
 
     }
+
+    private void countInState(String stateCount) {
+
+    }
+
+
 }
