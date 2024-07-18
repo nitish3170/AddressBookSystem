@@ -40,6 +40,9 @@ public class MultipleAddressBooks {
             System.out.println();
         });
     }
+    public void sortContacts (){
+
+    }
 
     public static void main(String[] args) {
         System.out.println("Welcome to Address Book System");
@@ -86,5 +89,6 @@ public class MultipleAddressBooks {
         }
 
     }
+
 
 }
