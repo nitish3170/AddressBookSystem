@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class AddressBookSystem {
     private String firstName;
@@ -93,6 +90,8 @@ public class AddressBookSystem {
             }
         else {
             contacts.add(newContact);
+            contacts.add(newContact);
+            contacts.sort(Comparator.comparing(AddressBookSystem::getFirstName).thenComparing(AddressBookSystem::getLastName));
         }
     }
     public void editContact(){
@@ -171,6 +170,13 @@ public class AddressBookSystem {
 
     public String getState() {
         return state;
+    }
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public ArrayList<AddressBookSystem> getContacts() {
